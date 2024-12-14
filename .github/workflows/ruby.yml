@@ -46,9 +46,13 @@ jobs:
       - name: Test Terraform Config
         run: |
           terraform validate
-          terraform plan -no-color -out tfplan
+          terraform plan -no-color -out tfplan -var "owner=${{ github.owner }}" -var "secret_token=${{ secrets.PAT }}" -var "github_repository_name=${{ github.repository }}"
           PLAN=$(terraform show -json tfplan)
           bash -e .github/tests/test/tests.sh "$PLAN" .github/tests/test/test_cases.txt
+      #--------------------------------------------------------------------------------  
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan -var "owner=${{ github.owner }}" -var "secert_token=${{ secrets.PAT }}" -var "github_repository_name=${{ github.repository }}"
+      #--------------------------------------------------------------------------------  
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -62,3 +66,7 @@ jobs:
         working-directory: '.github/tests'
         run: 
           ruby test/script_test.rb
+      #--------------------------------------------------------------------------------  
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
+        if: always()
