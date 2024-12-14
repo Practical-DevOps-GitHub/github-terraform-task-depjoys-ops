@@ -54,10 +54,10 @@ jobs:
           bash -e .github/tests/test/tests.sh "$PLAN" .github/tests/test/test_cases.txt
       #--------------------------------------------------------------------------------  
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan \
+        run: terraform apply -auto-approve \
               -var "owner=${{ github.actor }}" \
               -var "secret_token=${{ secrets.PAT }}" \
-              -var "github_repository_name=${{ github.event.repository.name }}"
+              -var "github_repository_name=${{ github.event.repository.name }}" tfplan
       #--------------------------------------------------------------------------------  
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -74,8 +74,8 @@ jobs:
           ruby test/script_test.rb
       #--------------------------------------------------------------------------------  
       - name: Terraform Destroy
-        run: terraform destroy -auto-approve tfplan \
+        run: terraform destroy -auto-approve \
               -var "owner=${{ github.actor }}" \
               -var "secret_token=${{ secrets.PAT }}" \
-              -var "github_repository_name=${{ github.event.repository.name }}"
+              -var "github_repository_name=${{ github.event.repository.name }}" tfplan
         if: always()
