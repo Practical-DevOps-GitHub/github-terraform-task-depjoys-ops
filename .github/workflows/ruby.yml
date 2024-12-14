@@ -70,7 +70,7 @@ jobs:
         run: 
           ruby test/script_test.rb
       #--------------------------------------------------------------------------------  
-      - name: Terraform Destroy
-        run: terraform destroy -auto-approve -var "owner=${{ github.event.repository.owner.login }}" -var "secret_token=${{ secrets.PAT }}" -var "github_repository_name=${{ github.event.repository.name }}"
-        if: always()
+      #- name: Terraform Destroy
+      #  run: terraform destroy -auto-approve -var "owner=${{ github.event.repository.owner.login }}" -var "secret_token=${{ secrets.PAT }}" -var "github_repository_name=${{ github.event.repository.name }}"
+      #  if: always()
 
