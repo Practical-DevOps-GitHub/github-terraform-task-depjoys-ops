@@ -42,7 +42,7 @@ provider "github" {
 #########################################################
 
 resource "github_repository_collaborator" "collaborator" {
-  repository = github_repository.repository.name
+  repository = var.github_repository_name
   username   = "softservedata"
   permission = "admin"
 }
@@ -50,7 +50,7 @@ resource "github_repository_collaborator" "collaborator" {
 #########################################################
 
 resource "github_branch" "develop" {
-  repository        = github_repository.repository.name
+  repository        = var.github_repository_name
   branch            = "develop"
   source_branch     = "main"
 }
@@ -58,14 +58,14 @@ resource "github_branch" "develop" {
 #########################################################
 
 resource "github_branch_default" "default"{
-  repository = github_repository.repository.name
+  repository = var.github_repository_name
   branch     = github_branch.develop.branch
 }
 
 #########################################################
 
 resource "github_branch_protection" "main" {
-  repository_id = github_repository.repository.name
+  repository_id = var.github_repository_name
   pattern       = "main"  
 
   required_pull_request_reviews {
@@ -84,7 +84,7 @@ resource "github_branch_protection" "main" {
 #########################################################
 
 resource "github_branch_protection" "develop" {
-  repository_id = github_repository.repository.name
+  repository_id = var.github_repository_name
   pattern       = "develop"
 
   required_pull_request_reviews {
@@ -103,7 +103,7 @@ resource "github_branch_protection" "develop" {
 #########################################################
 
 resource "github_repository_file" "codeowners" {
-  repository = github_repository.repository.name
+  repository = var.github_repository_name
   file       = ".github/CODEOWNERS"
   content    = "* @softservedata"
   branch     = "main"
@@ -114,7 +114,7 @@ resource "github_repository_file" "codeowners" {
 #########################################################
 
 resource "github_repository_file" "pr_template" {
-  repository = github_repository.repository.name
+  repository = var.github_repository_name
   file       = ".github/pull_request_template.md"
   content    = <<-EOT
   ## Describe your changes
@@ -135,7 +135,7 @@ resource "github_repository_file" "pr_template" {
 
 resource "github_repository_deploy_key" "example_repository_deploy_key" {
   title      = "DEPLOY_KEY"
-  repository = github_repository.repository.name
+  repository = var.github_repository_name
   key        = <<EOF
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ0FoOlQ3hvQ8OQY+Glj+azQSmjoSdOcXgtP1JcvT3SP github-terraform-task-depjoys-ops
 EOF
@@ -145,7 +145,7 @@ EOF
 #########################################################
 
 resource "github_repository_webhook" "discord_webhook" {
-  repository = github_repository.repository.name
+  repository = var.github_repository_name
   active     = true
   events     = ["pull_request"]
 
@@ -158,9 +158,8 @@ resource "github_repository_webhook" "discord_webhook" {
 #########################################################
 
 resource "github_actions_secret" "secret_actions_token" {
-  repository       = github_repository.repository.name
+  repository       = var.github_repository_name
   secret_name      = "PAT"
   plaintext_value  = var.secret_token
 }
-
 
