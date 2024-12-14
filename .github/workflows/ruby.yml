@@ -79,3 +79,4 @@ jobs:
               -var "secret_token=${{ secrets.PAT }}" \
               -var "github_repository_name=${{ github.event.repository.name }}" tfplan
         if: always()
+
