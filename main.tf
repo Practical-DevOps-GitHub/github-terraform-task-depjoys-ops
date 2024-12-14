@@ -33,11 +33,11 @@ provider "github" {
 
 #########################################################
 
-resource "github_repository" "repository" {
-  name        = var.github_repository_name
-  description = "My GitHub repository"
-  visibility  = "public"
-}
+#resource "github_repository" "repository" {
+#  name        = var.github_repository_name
+#  description = "My GitHub repository"
+#  visibility  = "public"
+#}
 
 #########################################################
 
@@ -162,3 +162,5 @@ resource "github_actions_secret" "secret_actions_token" {
   secret_name      = "PAT"
   plaintext_value  = var.secret_token
 }
+
+
