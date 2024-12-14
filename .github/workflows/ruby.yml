@@ -47,14 +47,14 @@ jobs:
         run: |
           terraform validate
           terraform plan -no-color -out tfplan \
-              -var "owner=${{ github.owner }}" \
+              -var "owner=${{ github.event.repository.owner.login }}" \
               -var "secret_token=${{ secrets.PAT }}" \
               -var "github_repository_name=${{ github.event.repository.name }}"
           PLAN=$(terraform show -json tfplan)
           bash -e .github/tests/test/tests.sh "$PLAN" .github/tests/test/test_cases.txt
       #--------------------------------------------------------------------------------  
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var "owner=${{ github.owner }}" -var "secret_token=${{ secrets.PAT }}" -var "github_repository_name=${{ github.event.repository.name }}" 
+        run: terraform apply -auto-approve -var "owner=${{ github.event.repository.owner.login }}" -var "secret_token=${{ secrets.PAT }}" -var "github_repository_name=${{ github.event.repository.name }}" 
       #--------------------------------------------------------------------------------  
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -71,6 +71,6 @@ jobs:
           ruby test/script_test.rb
       #--------------------------------------------------------------------------------  
       - name: Terraform Destroy
-        run: terraform destroy -auto-approve -var "owner=${{ github.owner }}" -var "secret_token=${{ secrets.PAT }}" -var "github_repository_name=${{ github.event.repository.name }}"
+        run: terraform destroy -auto-approve -var "owner=${{ github.event.repository.owner.login }}" -var "secret_token=${{ secrets.PAT }}" -var "github_repository_name=${{ github.event.repository.name }}"
         if: always()
 
