@@ -55,9 +55,9 @@ jobs:
       #--------------------------------------------------------------------------------  
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan \
-                -var "owner=${{ github.actor }}" \
-                -var "secert_token=${{ secrets.PAT }}" \
-                -var "github_repository_name=${{ github.event.repository.name }}"
+              -var "owner=${{ github.actor }}" \
+              -var "secret_token=${{ secrets.PAT }}" \
+              -var "github_repository_name=${{ github.event.repository.name }}"
       #--------------------------------------------------------------------------------  
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -75,7 +75,7 @@ jobs:
       #--------------------------------------------------------------------------------  
       - name: Terraform Destroy
         run: terraform destroy -auto-approve tfplan \
-                -var "owner=${{ github.actor }}" \
-                -var "secert_token=${{ secrets.PAT }}" \
-                -var "github_repository_name=${{ github.event.repository.name }}"
+              -var "owner=${{ github.actor }}" \
+              -var "secret_token=${{ secrets.PAT }}" \
+              -var "github_repository_name=${{ github.event.repository.name }}"
         if: always()
