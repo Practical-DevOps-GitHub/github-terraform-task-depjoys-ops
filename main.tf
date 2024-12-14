@@ -108,7 +108,7 @@ resource "github_repository_file" "codeowners" {
   content    = "* @softservedata"
   branch     = "main"
   commit_message = "Add CODEOWNERS file"
-  overwrite_on_create = true
+  overwrite_on_create = false
 }
 
 #########################################################
@@ -129,6 +129,7 @@ resource "github_repository_file" "pr_template" {
   EOT
   branch     = "main"
   commit_message = "Add pull request template"
+  overwrite_on_create = false 
 }
 
 #########################################################
@@ -162,4 +163,3 @@ resource "github_actions_secret" "secret_actions_token" {
   secret_name      = "PAT"
   plaintext_value  = var.secret_token
 }
-
