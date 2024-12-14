@@ -129,6 +129,7 @@ resource "github_repository_file" "pr_template" {
   EOT
   branch     = "main"
   commit_message = "Add pull request template"
+  overwrite_on_create = true  
 }
 
 #########################################################
